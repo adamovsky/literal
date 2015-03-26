@@ -30,16 +30,19 @@ function objectTools() {
       var path;
       var count = paths.length;
       var counter = 0;
-      var results = {};
+      var results = {
+        nodes: {}
+      };
+      var nodes = results.nodes;
 
       for (; counter < count; counter++) {
 
         path = paths[counter];
 
-        if (!results[path]) {
-          results[path] = loopUntilDoesntExist(path);
-          all *= results[path];
-          any += results[path] * 1;
+        if (!nodes[path]) {
+          nodes[path] = loopUntilDoesntExist(path);
+          all *= nodes[path];
+          any += nodes[path] * 1;
         }
 
       }
@@ -48,8 +51,8 @@ function objectTools() {
       results.any = !!any;
 
       return results;
-    } else if (pathType === "string") {
-      return loopUntilDoesntExist(path);
+    } else if (pathsType === "string") {
+      return loopUntilDoesntExist(paths);
     }
 
   }
