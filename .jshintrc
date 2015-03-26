@@ -1,0 +1,35 @@
+{
+    "asi"           : false,  // Tolerate Automatic Semicolon Insertion (no semicolons).
+    "bitwise"       : true,   // Prohibit bitwise operators (&, |, ^, etc.).
+    "boss"          : false,  // Tolerate assignments inside if, for & while.
+    "curly"         : false,  // Require {} for every new block or scope.
+    "eqeqeq"        : true,   // Require triple equals i.e. `===`.
+    "eqnull"        : true,   // Tolerate use of `== null`.
+    "evil"          : false,  // Tolerate use of `eval`.
+    "forin"         : false,  // Tolerate `for in` loops without `hasOwnPrototype`.
+    "globals" : {
+        "beforeEach" : true,
+        "describe"   : true,
+        "expect"     : true,
+        "it"         : true
+    },
+    "globalstrict"  : true,   // Allow global "use strict" (also enables 'strict').
+    "immed"         : true,   // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
+    "indent"        : 2,      // Specify indentation spacing
+    "latedef"       : true,   // Prohibit variable use before definition.
+    "laxbreak"      : true,   // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
+    "loopfunc"      : false,  // Allow functions to be defined within loops.
+    "newcap"        : true,   // Require capitalization of all constructor functions e.g. `new F()`.
+    "noarg"         : false,  // Prohibit use of `arguments.caller` and `arguments.callee`.
+    "node"          : true,   // Allow Node.js global variables
+    "noempty"       : true,   // Prohibit use of empty blocks.
+    "nomen"         : true,   // Prohibit use of initial or trailing underbars in names.
+    "nonew"         : true,   // Prohibit use of constructors for side-effects.
+    "plusplus"      : false,  // Prohibit use of `++` & `--`.
+    "shadow"        : false,  // Allows re-define variables later in code e.g. `var x=1; x=2;`.
+    "strict"        : true,   // Require `use strict` pragma  in every file.
+    "sub"           : true,   // Tolerate all forms of subscript notation besides dot notation
+    "trailing"      : true,   // Prohibit trailing whitespaces.
+    "undef"         : true,   // Require all non-global variables be declared before they are used.
+    "white"         : true   // Check against strict whitespace and indentation rules.
+}
