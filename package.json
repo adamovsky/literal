@@ -1,0 +1,32 @@
+{
+  "name": "Literal",
+  "version": "0.0.1",
+  "description": "JavaScript utility library for handling literals.",
+  "main": "literal.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamovsky/literal"
+  },
+  "keywords": [
+    "object",
+    "literal",
+    "js",
+    "javascript",
+    "array",
+    "nested"
+  ],
+  "author": "Milan Adamovsky",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/adamovsky/literal/issues"
+  },
+  "dependencies": {
+    "grunt": "~0.4.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.11.1"
+  }
+}
