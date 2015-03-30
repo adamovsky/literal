@@ -41,8 +41,9 @@ function objectTools() {
 
         if (!nodes[path]) {
           nodes[path] = exists(path);
-          all *= nodes[path];
-          any += nodes[path] * 1;
+
+          all *= !!nodes[path];
+          any += !!nodes[path] * 1;
         }
 
       }
@@ -104,6 +105,18 @@ function objectTools() {
 
   }
 
+  function swap(from, to) {
+
+    if (!from || !to)
+      return;
+
+    var fromType = findType(from);
+    var toType = findType(to);
+
+
+
+  }
+
   function exists(path, build, value) {
 
     if (path.indexOf(".") < 0)
@@ -117,6 +130,7 @@ function objectTools() {
 
     for (; counter < count; counter++) {
       node = nodes[counter];
+
       if (!temporaryLiteral.hasOwnProperty(node))
         if (build)
           temporaryLiteral[node] = counter === count - 1 ? value : {};
@@ -131,7 +145,8 @@ function objectTools() {
 
   return {
     check: check,
-    fill: fill
+    fill: fill,
+    swap: swap
   };
 }
 
