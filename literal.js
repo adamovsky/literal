@@ -1,7 +1,7 @@
 "use strict";
 
-var originalLiteral;
-var originalLiteralType;
+var originalLiteral = null;
+var originalLiteralType = null;
 
 function findType(literal) {
   var literalType = typeof literal;
@@ -172,6 +172,9 @@ module.exports = function(literal) {
     originalLiteralType = literalType;
   }
 
-  return toolbox[literalType]();
+  var literalInterface = toolbox[literalType]();
 
+  literalInterface.type = literalType;
+
+  return literalInterface;
 };
