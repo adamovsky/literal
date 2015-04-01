@@ -18,7 +18,7 @@ function findType(literal) {
 }
 
 function objectTools() {
-  function check(paths) {
+  function check(paths, value) {
 
     if (!paths) return true;
 
@@ -30,20 +30,24 @@ function objectTools() {
       var path;
       var count = paths.length;
       var counter = 0;
+      var nodeExists;
       var results = {
         nodes: {}
       };
       var nodes = results.nodes;
+      var nodeValue;
 
       for (; counter < count; counter++) {
 
         path = paths[counter];
 
         if (!nodes[path]) {
-          nodes[path] = exists(path);
+          nodeValue = nodes[path] = exists(path);
 
-          all *= !!nodes[path];
-          any += !!nodes[path] * 1;
+          nodeExists = (typeof value !== "undefined") ? nodeValue === value : !!nodeValue;
+
+          all *= nodeExists;
+          any += nodeExists * 1;
         }
 
       }
@@ -55,7 +59,9 @@ function objectTools() {
     }
 
     if (pathsType === "string") {
-      return exists(paths);
+      if (value === undefined)
+        return exists(paths);
+      return exists(paths) && originalLiteral[paths] === value;
     }
 
     return false;
@@ -120,7 +126,7 @@ function objectTools() {
   function exists(path, build, value) {
 
     if (path.indexOf(".") < 0)
-      return originalLiteral.hasOwnProperty(path);
+      return originalLiteral.hasOwnProperty(path) ? originalLiteral[path] : false;
 
     var temporaryLiteral = originalLiteral;
     var nodes = path.split(".");

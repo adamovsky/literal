@@ -36,7 +36,8 @@ describe('literal.js', function() {
                             "hello", "world"
                         ],
                         z: {
-                            "good": "day"
+                            "good": "day",
+                            "same": "hi"
                         }
                     });
                 });
@@ -49,7 +50,7 @@ describe('literal.js', function() {
 
                 });
 
-                describe('with parameter', function() {
+                describe('with first parameter', function() {
 
                     describe('as a string', function() {
 
@@ -59,6 +60,14 @@ describe('literal.js', function() {
 
                         it("checks the given path doesn't exist", function() {
                             expect(objectLiteral.check("z.bad.it.does.not.exist")).toBe(false);
+                        });
+
+                        describe('and second parameter as a string', function() {
+
+                            it("compares the node value at the path to the given value", function() {
+                                expect(objectLiteral.check("x", "hi")).toBe(true);
+                            });
+
                         });
 
                     });
@@ -80,10 +89,24 @@ describe('literal.js', function() {
                         });
 
                         it("retrieves the values of paths that exist", function() {
-                            var check = objectLiteral.check(["z.good", "a.b.c"]);
+                            var check = objectLiteral.check(["z.good", "a.b.c", "x"]);
                             expect(check.nodes["z.good"]).toBe("day");
                             expect(check.nodes["a.b.c"]).toBe(false);
+                            expect(check.nodes["x"]).toBe("hi");
                         });
+
+
+                        describe('and second parameter as a string', function() {
+
+                            it("compares node values at each path to the given value", function() {
+                                expect(objectLiteral.check(["x", "z.same"], "hi").all).toBe(true);
+                                expect(objectLiteral.check(["x", "z.same"], "hi").any).toBe(true);
+                                expect(objectLiteral.check(["y", "z.same"], "hi").all).toBe(false);
+                                expect(objectLiteral.check(["y", "z.same"], "hi").any).toBe(true);
+                            });
+
+                        });
+
                     });
 
                 });
