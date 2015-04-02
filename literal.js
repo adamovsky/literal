@@ -64,10 +64,10 @@ function objectTools() {
       return exists(paths) && originalLiteral[paths] === value;
     }
 
-    return false;
+    return undefined;
   }
 
-  function fill(paths, value) {
+  function fill(paths, value, overwrite) {
 
     if (!paths) return false;
 
@@ -76,8 +76,8 @@ function objectTools() {
     if (pathsType === "string") {
 
       if (paths.indexOf(".") < 0) {
-        if (!originalLiteral.hasOwnProperty(paths))
-          originalLiteral[path] = value;
+        if (!originalLiteral.hasOwnProperty(paths) || overwrite)
+          originalLiteral[paths] = value;
 
         return originalLiteral[paths];
       }
@@ -119,7 +119,15 @@ function objectTools() {
     var fromType = findType(from);
     var toType = findType(to);
 
+    if (fromType === "string" && toType === "string") {
+      var fromValue = check(from);
+      var toValue = check(to);
 
+      fill(to, fromValue, true);
+      delete originalLiteral[from];
+
+      fill(from, toValue, true);
+    }
 
   }
 
@@ -134,6 +142,8 @@ function objectTools() {
     var counter = 0;
     var node;
 
+    console.log("original: ", originalLiteral);
+
     for (; counter < count; counter++) {
       node = nodes[counter];
 
@@ -146,7 +156,7 @@ function objectTools() {
       temporaryLiteral = temporaryLiteral[node];
     }
 
-    return temporaryLiteral;
+    return originalLiteral;
   }
 
   return {
