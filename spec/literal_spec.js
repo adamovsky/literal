@@ -1,3 +1,5 @@
+"use strict";
+
 var literal = require("../literal");
 
 describe('literal.js', function() {
@@ -84,7 +86,7 @@ describe('literal.js', function() {
                             expect(objectLiteral.check(["x", "y", "z"]).all).toBe(true);
                             expect(objectLiteral.check(["a", "b", "c"]).all).toBe(false);
                             expect(objectLiteral.check(["z.good", "a.b.c"]).all).toBe(false);
-                            expect(objectLiteral.check(["x", "y", "z", "z.good"]).all).toBe(true)
+                            expect(objectLiteral.check(["x", "y", "z", "z.good"]).all).toBe(true);
                             expect(objectLiteral.check(["z.good"]).all).toBe(true);
                         });
 

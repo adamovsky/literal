@@ -7,6 +7,12 @@
     "eqnull"        : true,   // Tolerate use of `== null`.
     "evil"          : false,  // Tolerate use of `eval`.
     "forin"         : false,  // Tolerate `for in` loops without `hasOwnPrototype`.
+    "globals" : {
+        "beforeEach" : true,
+        "describe"   : true,
+        "expect"     : true,
+        "it"         : true
+    },
     "globalstrict"  : true,   // Allow global "use strict" (also enables 'strict').
     "immed"         : true,   // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
     "indent"        : 2,      // Specify indentation spacing

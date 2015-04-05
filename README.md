@@ -36,6 +36,8 @@ literal(x).check(["two", "three.same"], "a").any // true because at least one no
 literal(x).check(["one", "three.same"], "a").all // true because both "one" and "three.same" equal "a"
 literal(x).fill("one", "hello"); // sets "hello" to x.one if it exists, and creates it if doesn't
 literal(x).fill(["one", "two"], "hello"); // sets "hello" to x.one and x.two if they exist, and creates it they don't
+literal(x).swap("one", "two"); // x.one and x.two swap values
+literal(x).swap("one", "six", false); // won't swap values because x.six doesn't exist
 literal(x).type // "object"
 ```
 

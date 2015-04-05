@@ -67,9 +67,11 @@ function objectTools() {
     return undefined;
   }
 
-  function fill(paths, value, overwrite) {
+  function fill(paths, value, overwrite, build) {
 
     if (!paths) return false;
+
+    build = typeof build === "undefined" ? true : build;
 
     var pathsType = findType(paths);
 
@@ -82,10 +84,12 @@ function objectTools() {
         return originalLiteral[paths];
       }
 
-      return exists(paths, true, value);
+      return exists(paths, build, value);
     }
 
-    if (pathsType === "object") {}
+    if (pathsType === "object") {
+      console.log("TBD");
+    }
 
     if (pathsType === "array") {
       var path;
@@ -111,7 +115,7 @@ function objectTools() {
 
   }
 
-  function swap(from, to) {
+  function swap(from, to, build) {
 
     if (!from || !to)
       return;
@@ -119,30 +123,45 @@ function objectTools() {
     var fromType = findType(from);
     var toType = findType(to);
 
+    build = typeof build === "undefined" ? true : false;
+
     if (fromType === "string" && toType === "string") {
       var fromValue = check(from);
       var toValue = check(to);
 
-      fill(to, fromValue, true);
+      if (!build && !(fromValue && toValue)) {
+        return undefined;
+      }
+
+      fill(to, fromValue, true, build);
+      fill(from, toValue, true, build);
+
       delete originalLiteral[from];
 
-      fill(from, toValue, true);
+      return originalLiteral;
     }
 
   }
 
-  function exists(path, build, value) {
+  function exists(path, build, overwrite, value) {
 
-    if (path.indexOf(".") < 0)
-      return originalLiteral.hasOwnProperty(path) ? originalLiteral[path] : false;
+    if (path.indexOf(".") < 0) {
+      if (originalLiteral.hasOwnProperty(path)) {
+        if (overwrite)
+          originalLiteral[path] = value;
+      } else {
+        if (build)
+          originalLiteral[path] = value;
+      }
+
+      return originalLiteral[path];
+    }
 
     var temporaryLiteral = originalLiteral;
     var nodes = path.split(".");
     var count = nodes.length;
     var counter = 0;
     var node;
-
-    console.log("original: ", originalLiteral);
 
     for (; counter < count; counter++) {
       node = nodes[counter];
