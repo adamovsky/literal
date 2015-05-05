@@ -1,7 +1,7 @@
 # literal
 JavaScript utility library for manipulating literals.
 
-This library helps running complex and long operations using a more concise syntax.
+This library helps running complex and long operations on literals using a more concise syntax.
 
 Instead of writing:
 
@@ -45,46 +45,81 @@ if (literal(school).check(["student.name.first", "student.name.last"])) {
 }
 ```
 
+You could get creative and optimize:
+
+```js
+if (literal(school).check("student.name") && literal(school.student.name).check(["first", "last"])) {
+    // welcome first + last
+}
+```
+
+Eventually it will maintain a cache of traversed paths, but for the time-being you can use the above to check a common path, and then go through leaf nodes.  This will save you a full path traversal each time.
 
 # string
 
 ```js
-literal("some string").check() // true because it exists
-literal("some string").check("hello") // false because they are not the same
-literal("some string").same("hello") // same as above
-literal("hello").same("hello") // true because they are the same
-literal(x).type // "string"
+literal("some string").check()        // true 
+                                      //  - because it exists
+literal("some string").check("hello") // false 
+                                      //  - because they are not the same
+literal("some string").same("hello")  // false
+                                      //  - alias to above
+literal("hello").same("hello")        // true 
+                                      //  - because they are the same
+literal(x).type                       // "string"
+                                      //  - cached lookup type
 ```
 
-# object
+# Object Operations
 
 ```js
-var x = {
-    one : "a",
-    two : [ "b" ],
-    three : {
-        "states" : [ "nj", "ny", "fl" ],
-        "things" : "string",
-        "same" : "a"
+var funTime = {
+    map : ["zero", "one", "two", "three", "four", "five", "six", 
+           "seven", "eight", "nine", "ten", "eleven", "twelve"],
+    periods : {
+        morning : {
+            hours : [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        },
+        noon : {
+            hours : [12]
+        },
+        afternoon : {
+            hours : [1, 2, 3, 4, 5]
+        },
+        evening : {
+            hours : [6, 7]
+        },
+        night : {
+            hours : [8, 9, 10, 11]
+        },
+        midnight : {
+            hours : [12]
+        }
+    },
+    cycle : [
+        "dawn", "twilight", "sunrise", "dusk", "twilight"
+    ],
+    meridiem : {
+        am : [ "midnight", "morning"],
+        pm : [ "noon", "afternoon", "evening", "night"]
     }
 };
-
-literal(x).check() // true because x exists
-literal(x).check("one") // true because x.one exists
-literal(x).check("three") // false because x.three does not exist
-literal(x).check("one", "a") // true because x.one === "a"
-literal(x).check(["one", "three"]); // { one : true, three: false }
-literal(x).check(["one", "three"]).any // true because at least x.one exists
-literal(x).check(["one", "three"]).all // false because x.theee does not exist
-literal(x).check(["three.states", "one"]).nodes; // { "three.states" : [ "nj", "ny", "fl" ], "one" : "a" }
-literal(x).check(["two", "three.same"], "a").any // true because at least one node equals to "a"
-literal(x).check(["one", "three.same"], "a").all // true because both "one" and "three.same" equal "a"
-literal(x).fill("one", "hello"); // sets "hello" to x.one if it exists, and creates it if doesn't
-literal(x).fill(["one", "two"], "hello"); // sets "hello" to x.one and x.two if they exist, and creates it they don't
-literal(x).swap("one", "two"); // x.one and x.two swap values
-literal(x).swap("one", "six", false); // won't swap values because x.six doesn't exist
-literal(x).type // "object"
 ```
+
+Given the above complex data structure we run the following commands with their corresponding outputs. 
+
+Before we begin, let's first alias our identifiers so it becomes less to type.
+
+```js
+var l = require("literal");
+var o = funTime;
+```
+
+Let the fun begin !
+
+| Method          | Output    | Reason      |
+| --------------- | --------- | ------------| 
+| `l(o).check();` | true      | `o` exists  |
 
 # undefined
 

@@ -67,52 +67,39 @@ module.exports = function objectTools(init) {
     return false;
   }
 
-  function fill(paths, value, overwrite, build) {
+  function fill(paths, value) {
+
+    var exists, node;
 
     if (!paths) return false;
-
-    build = typeof build === "undefined" ? true : build;
 
     var pathsType = findType(paths);
 
     if (pathsType === "string") {
+      node = getNode(paths);
+      exists = !!node;
 
-      if (paths.indexOf(".") < 0) {
-        if (!originalLiteral.hasOwnProperty(paths) || overwrite)
-          originalLiteral[paths] = value;
-
-        return originalLiteral[paths];
+      if (!exists) {
+        node.ok = false;
+        return node;
       }
 
-      return exists(paths, build, value);
+      node.path[node.leaf] = value;
     }
 
-    if (pathsType === "object") {
-      console.log("TBD");
+    return node;
+  }
+
+  function plant(paths, value) {
+    var node = fill(paths, value);
+
+    if (!node.ok) {
+      node = buildPath(paths);
     }
 
-    if (pathsType === "array") {
-      var path;
-      var count = paths.length;
-      var counter = 0;
-      var results = {
-        nodes: {}
-      };
-      var nodes = results.nodes;
+    node.path[node.leaf] = value;
 
-      for (; counter < count; counter++) {
-
-        path = paths[counter];
-
-        if (!nodes[path]) {
-          nodes[path] = exists(path, true, value);
-        }
-
-      }
-
-      return results;
-    }
-
+    return node;
   }
 
   function swap(from, to) {
@@ -151,6 +138,7 @@ module.exports = function objectTools(init) {
   return {
     check: check,
     fill: fill,
+    plant: plant,
     swap: swap
   };
 }

@@ -47,8 +47,6 @@ module.exports = function(originalLiteral) {
   }
 
   function getNode(path) {
-
-    var build;
     var type = findType(path);
 
     var node = {
@@ -69,12 +67,10 @@ module.exports = function(originalLiteral) {
         leaf: path
       };
     } else {
-      build = traversePath(path);
+      node = traversePath(path);
 
-      if (!build.ok)
+      if (!node.ok)
         return false;
-
-      node = build;
     }
 
     return node;
