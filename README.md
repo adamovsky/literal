@@ -1,4 +1,5 @@
-# literal
+# Literal
+
 JavaScript utility library for manipulating literals.
 
 This library helps running complex and long operations on literals using a more concise syntax.
@@ -55,7 +56,7 @@ if (literal(school).check("student.name") && literal(school.student.name).check(
 
 Eventually it will maintain a cache of traversed paths, but for the time-being you can use the above to check a common path, and then go through leaf nodes.  This will save you a full path traversal each time.
 
-# string
+# String Literal
 
 ```js
 literal("some string").check()        // true 
@@ -70,7 +71,7 @@ literal(x).type                       // "string"
                                       //  - cached lookup type
 ```
 
-# Object Operations
+# Object Literal
 
 ```js
 var funTime = {
