@@ -7,7 +7,10 @@ Instead of writing:
 
 ```js
 
-if (school && school.student && school.student.name && school.student.name.first) {
+if (school 
+    && school.student 
+    && school.student.name 
+    && school.student.name.first) {
     // welcome first
 }
 
@@ -28,7 +31,8 @@ Let's consider another example.
 Instead of writing:
 
 ```js
-if (literal(school).check("student.name.first") && literal(school).check("student.name.last")) {
+if (literal(school).check("student.name.first") 
+    && literal(school).check("student.name.last")) {
     // welcome
 }
 ```
