@@ -1,43 +1,41 @@
 "use strict";
 
-var commonTools = require("./modules/common");
-
-var findType = commonTools.findType;
-
-var objectTools = require("./modules/object");
-var stringTools = require("./modules/string");
+var commonLibrary = require("./modules/common");
 
 var originalLiteral = null;
 var originalLiteralType = null;
 
-
-function undefinedTools() {
-  return {
-    check: function() {
-      return false;
-    }
-  };
-}
-
 var toolbox = {
-  "object": objectTools,
-  "string": stringTools,
-  "undefined": undefinedTools
+  "object": require("./modules/object"),
+  "string": require("./modules/string"),
+  "undefined": require("./modules/undefined"),
 };
 
 module.exports = function(literal) {
+  var commonTools;
+  var findType;
+  var literalInterface;
   var literalType = originalLiteralType;
+  var init = {};
 
   if (literal !== originalLiteral) {
+
+    commonTools = commonLibrary(literal);
+    findType = commonTools.findType;
+
     literalType = findType(literal);
 
     originalLiteral = literal;
     originalLiteralType = literalType;
   }
 
-  var literalInterface = toolbox[literalType](originalLiteral, originalLiteralType);
+  init.commonTools = commonTools;
+  init.literal = literal;
+  init.type = literalType;
 
-  literalInterface.type = literalType;
+  literalInterface = toolbox[literalType](init);
+
+  literalInterface.type = init.type;
 
   return literalInterface;
 };

@@ -1,40 +1,51 @@
 "use strict";
 
-var commonTools = require("./common");
+var commonLibrary = require("./common");
 
-var findType = commonTools.findType;
+module.exports = function objectTools(init) {
 
-module.exports = function objectTools(originalLiteral, originalLiteralType) {
+  var originalLiteral = init.literal;
+  var originalType = init.type;
+
+  var commonTools = init.commonTools || commonLibrary(originalLiteral);
+
+  var findType = commonTools.findType;
+  var buildPath = commonTools.buildPath;
+  var getNode = commonTools.getNode;
+  var traversePath = commonTools.traversePath;
+
   function check(paths, value) {
 
     if (!paths) return true;
 
     var pathsType = findType(paths);
+    var checkValue = arguments.length === 2;
 
     if (pathsType === "array") {
       var all = 1;
       var any = 0;
-      var path;
       var count = paths.length;
       var counter = 0;
-      var nodeExists;
+      var exists;
+      var node;
+      var path;
       var results = {
         nodes: {}
       };
       var nodes = results.nodes;
-      var nodeValue;
 
       for (; counter < count; counter++) {
 
         path = paths[counter];
 
         if (!nodes[path]) {
-          nodeValue = nodes[path] = exists(path);
+          node = getNode(path);
+          exists = !!node;
 
-          nodeExists = (typeof value !== "undefined") ? nodeValue === value : !!nodeValue;
+          exists = nodes[path] = exists && checkValue ? node.path[node.leaf] === value : exists;
 
-          all *= nodeExists;
-          any += nodeExists * 1;
+          all *= exists;
+          any += exists * 1;
         }
 
       }
@@ -46,12 +57,14 @@ module.exports = function objectTools(originalLiteral, originalLiteralType) {
     }
 
     if (pathsType === "string") {
+      node = getNode(paths);
+      exists = !!node;
       if (value === undefined)
-        return exists(paths);
-      return exists(paths) && originalLiteral[paths] === value;
+        return exists;
+      return exists && checkValue && node.path[node.leaf] === value;
     }
 
-    return undefined;
+    return false;
   }
 
   function fill(paths, value, overwrite, build) {
@@ -104,103 +117,35 @@ module.exports = function objectTools(originalLiteral, originalLiteralType) {
 
   function swap(from, to) {
 
+    var build, fromValue, toValue;
+
     if (!from || !to)
       return;
 
     var fromType = findType(from);
     var toType = findType(to);
 
-    if (fromType === "string" && toType === "string") {
-      if (!originalLiteral.hasOwnProperty(from))
+    if (fromType === "string") {
+      var source = getNode(from);
+
+      if (!source)
         return false;
 
-      if (originalLiteral.hasOwnProperty(to)) {
-        var toValue = originalLiteral[to];
+      if (toType === "string") {
+        var destination = getNode(to);
 
-        originalLiteral[to] = originalLiteral[from];
-        originalLiteral[from] = toValue;
-      } else
-        delete originalLiteral[from];
+        if (!destination)
+          return false;
+
+        fromValue = source.path[source.leaf];
+        toValue = destination.path[destination.leaf];
+        source.path[source.leaf] = toValue;
+        destination.path[destination.leaf] = fromValue;
+      }
 
       return true;
     }
 
-  }
-
-  function a_exists(path, value, overwrite, build) {
-
-    if (path.indexOf(".") < 0) {
-      if (originalLiteral.hasOwnProperty(path)) {
-        if (overwrite)
-          originalLiteral[path] = value;
-        else
-          return true;
-      } else {
-        if (build)
-          originalLiteral[path] = value;
-        else
-          return false
-      }
-
-      return originalLiteral[path];
-    }
-
-    var temporaryLiteral = originalLiteral;
-    var nodes = path.split(".");
-    var count = nodes.length;
-    var counter = 0;
-    var node;
-
-    for (; counter < count; counter++) {
-      node = nodes[counter];
-
-      if (!temporaryLiteral.hasOwnProperty(node))
-        if (build)
-          temporaryLiteral[node] = counter === count - 1 ? value : {};
-        else
-          return false;
-
-      temporaryLiteral = temporaryLiteral[node];
-    }
-
-    return originalLiteral;
-  }
-
-
-
-  function x_exists(path, build, overwrite, value) {
-
-    if (path.indexOf(".") < 0) {
-      if (originalLiteral.hasOwnProperty(path)) {
-        if (overwrite)
-          originalLiteral[path] = value;
-      } else {
-        if (build)
-          originalLiteral[path] = value;
-      }
-
-      return originalLiteral[path];
-    }
-
-    var temporaryLiteral = originalLiteral;
-    var nodes = path.split(".");
-    var count = nodes.length;
-    var counter = 0;
-    var node;
-
-    for (; counter < count; counter++) {
-      node = nodes[counter];
-
-      if (!temporaryLiteral.hasOwnProperty(node))
-        if (build)
-          temporaryLiteral[node] = counter === count - 1 ? value : {};
-        else
-          return false;
-
-      temporaryLiteral = temporaryLiteral[node];
-    }
-
-    return originalLiteral;
   }
 
   return {
