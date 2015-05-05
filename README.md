@@ -1,6 +1,47 @@
 # literal
 JavaScript utility library for manipulating literals.
 
+This library helps running complex and long operations using a more concise syntax.
+
+Instead of writing:
+
+```js
+
+if (school && school.student && school.student.name && school.student.name.first) {
+    // welcome first
+}
+
+```
+
+You can now write:
+
+```js
+if (literal(school).check("student.name.first")) {
+    // welcome first
+}
+```
+
+This removes a lot of clutter code.
+
+Let's consider another example.
+
+Instead of writing:
+
+```js
+if (literal(school).check("student.name.first") && literal(school).check("student.name.last")) {
+    // welcome
+}
+```
+
+You can use the built-in shorthand:
+
+```js
+if (literal(school).check(["student.name.first", "student.name.last"])) {
+    // welcome first + last
+}
+```
+
+
 # string
 
 ```js
