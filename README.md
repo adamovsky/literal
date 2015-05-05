@@ -56,7 +56,7 @@ if (literal(school).check("student.name") && literal(school.student.name).check(
 
 Eventually it will maintain a cache of traversed paths, but for the time-being you can use the above to check a common path, and then go through leaf nodes.  This will save you a full path traversal each time.
 
-# String Literal
+## String Literal
 
 ```js
 literal("some string").check()        // true 
@@ -71,7 +71,7 @@ literal(x).type                       // "string"
                                       //  - cached lookup type
 ```
 
-# Object Literal
+## Object Literal
 
 ```js
 var funTime = {
@@ -122,7 +122,7 @@ Let the fun begin !
 | --------------- | --------- | ------------| 
 | `l(o).check();` | true      | `o` exists  |
 
-# undefined
+## undefined
 
 ```js
 var x;
