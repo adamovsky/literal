@@ -53,6 +53,29 @@ p {
     line-height: 22.5px;
 }
 
+pre {
+  position: relative;
+}
+
+.after::before,
+.before::before {
+  background-color: #eaeaea;
+  display: inline-block;
+  font-family: Arial, serif;
+  font-size: 11px;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.after::before {
+  content: "after";
+}
+
+.before::before {
+  content: "before";
+}
 
 .hljs.js {
   background-color: transparent;

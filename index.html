@@ -50,10 +50,14 @@
 <p>Literal is a lightweight and high performance utility library to help with common manipulation operations when dealing with literals in JavaScript.</p>
 
 <p>So what can this library help with ?</p>
-<pre><code class="js">if (myObject 
+<pre class="before"><code class="js">if (myObject 
     && myObject.items 
     && myObject.items.item 
     && myObject.items.item.property) {
+    // ...
+}
+</code></pre>
+<pre class="after"><code class="js">if (literal(myObject).check("items.item.property")) {
     // ...
 }
 </code></pre>
