@@ -1,7 +1,0 @@
-{
-  "spec_dir": "spec",
-  "spec_files": [
-    "literal_spec.js",
-    "spec/**/*[sS]pec.js"
-  ]
-}
