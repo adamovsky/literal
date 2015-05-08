@@ -32,6 +32,8 @@ body {
 }
 
 code {
+  background-color: #fff;
+  border-radius: 5px;
   font-size:13px;
   padding: 0 3px;
   background-color: #fff;
@@ -78,7 +80,7 @@ pre {
 }
 
 .hljs.js {
-  background-color: transparent;
+  background-color: #fff;
 }
 
 .wrap {

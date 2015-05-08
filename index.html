@@ -44,25 +44,72 @@
     <div id="content-wrapper">
       <div class="wrap clearfix">
         <section id="main-content">
+          <h2>
+            <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true">
+              <span class="octicon octicon-link">
+              </span>
+            </a>
+            Welcome to Literal
+          </h2>
+
+          <p>
+            Literal is a high performing lightweight utility library that helps with manipulating literal data structures in JavaScript.
+          </p>
+
+          <p>
+            We all write code like this...
+          </p>
+
+          <pre class="before"><code class="js">if (myObject 
+  && myObject.items 
+  && myObject.items.item 
+  && myObject.items.item.property) {
+  // ...
+}
+          </code></pre>
+
+          <p>
+            Now we can simple tell literal which path we want to make sure exists, and it will check all nodes for us.
+          </p>
+
+          <pre class="after"><code class="js">if (literal(myObject).check("items.item.property")) {
+  // ... 
+}
+          </code></pre>
+
           <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Literal</h3>
+            A slightly more complex example
+          </h3>
 
-<p>Literal is a lightweight and high performance utility library to help with common manipulation operations when dealing with literals in JavaScript.</p>
+          <p>
+            We can also very easily swap content around within a given data structure.
+          </p>
 
-<p>So what can this library help with ?</p>
-<pre class="before"><code class="js">if (myObject 
-    && myObject.items 
-    && myObject.items.item 
-    && myObject.items.item.property) {
-    // ...
+          <pre class="before"><code class="js">if (myObject 
+  && myObject.items 
+  && myObject.items.item 
+  && myObject.items.item.property
+  && myObject.someArray
+  && myObject.someArray.length > 0) {
+  var first = myObject.items.item.property;
+  var myArray = myObject.someArray;
+  if (myArray[4]
+      && myArray[4].hasOwnProperty("map")) {
+    var second = myArray[4].map.item;
+  }
+  if (first && second) {
+    myObject.items.item.property = second;
+    myArray[4].map.item = first; 
+  }
 }
-</code></pre>
-<pre class="after"><code class="js">if (literal(myObject).check("items.item.property")) {
-    // ...
-}
+          </code></pre>
+<pre class="after"><code class="js">literal(myObject).swap("items.item.property", "someArray[4].map.item");
 </code></pre>
 <p>
-More to come...
+Yes, all that code replace with one line.
+</p>
+<p>
+But there is so much more you can do...
 </p>
         </section>
 
