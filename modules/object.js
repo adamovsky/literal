@@ -201,7 +201,7 @@ module.exports = function objectTools(init) {
       node;
 
     if (arguments.length < 1) {
-      return undefined;
+      return originalLiteral;
     }
 
     var pathsType = findType(paths);

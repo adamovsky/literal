@@ -344,10 +344,10 @@ Gets a given value of a given path or paths if they exists.
 
   * **undefined**
 
-  If no `paths` is passed in, it will return undefined since no value is gotten.
+  If no `paths` is passed in, it will return the original root literal.
 
   ```js
-  o.get(); // undefined
+  o.get(); // funTime
   ```
   * **string**
 
